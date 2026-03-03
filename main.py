@@ -76,7 +76,7 @@ class NodeTestPlugin(Star):
                             current_segment["images"].append(comp.url)
                             logger.debug(f"将图片 {comp.url} 添加到当前段落")
                 
-                if current_segment["text"].strip():
+                if current_segment["text"].strip() or current_segment["images"]:
                     segments.append(current_segment)
             
             logger.debug(f"解析完成，共有 {len(segments)} 个段落")
@@ -93,15 +93,12 @@ class NodeTestPlugin(Star):
         
         return segments
     
-    @event_message_type(EventMessageType.ALL)
-    async def on_all_message(self, event: AstrMessageEvent):
-        '''监听所有消息并检测伪造消息请求'''
+    @filter.command("伪造消息")
+    async def handle_forge_message(self, event: AstrMessageEvent):
+        '''伪造消息命令处理'''
         from astrbot.api.message_components import Node, Plain, Nodes, Image as CompImage
         
         message_text = event.message_str
-        
-        if not message_text.startswith("伪造消息"):
-            return
         
         segments = await self.parse_message_components(event.message_obj)
         
@@ -124,7 +121,7 @@ class NodeTestPlugin(Star):
             text = segment["text"]
             images = segment["images"]
             
-            match = re.match(r'^\s*(\d+)\s+(.*)', text)
+            match = re.match(r'^\s*(\d+)\s*(.*)', text)
             if not match:
                 logger.debug(f"段落格式错误，跳过: {text}")
                 continue
@@ -133,7 +130,7 @@ class NodeTestPlugin(Star):
             
             nickname = await self.get_qq_nickname(qq_number)
             
-            node_content = [Plain(content)]
+            node_content = ([Plain(content)] if content else [])
             
             for img_url in images:
                 try:
