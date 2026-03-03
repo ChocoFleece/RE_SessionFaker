@@ -1,6 +1,6 @@
 name: RE_SessionFaker # 这是你的插件的唯一识别名。
 desc: 一个用于AstrBot的插件，可以创建包含多个用户发言的伪造转发消息，支持自动获取QQ昵称。 # 插件简短描述
 help: 查看帮助获取使用说明。 # 插件的帮助信息
-version: v2.0.0 # 插件版本号。格式：v1.1.1 或者 v1.1
+version: v2.0.1 # 插件版本号。格式：v1.1.1 或者 v1.1
 author: ChocoFleece # 作者
 repo: https://github.com/ChocoFleece/RE_SessionFaker # 插件的仓库地址
