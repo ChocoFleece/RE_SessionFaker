@@ -23,8 +23,8 @@ class NodeTestPlugin(Star):
                         data = await response.json()
                         logger.debug(f"QQ昵称API返回: {data}")
                         
-                        if data.get("code") == 200 and "data" in data and "name" in data["data"]:
-                            nickname = data["data"]["name"]
+                        if data.get("success") and data.get("data", {}).get("name"):
+                            nickname = data.get("data", {}).get("name")
                             logger.debug(f"成功提取昵称: {nickname}")
                             if nickname:
                                 return nickname
